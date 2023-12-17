@@ -48,8 +48,7 @@ int main(int argc, char* args[]){
     SDL_Texture*  s_platform = window.LoadTexture("assets/platform_small.png");
     SDL_Texture*  box = window.LoadTexture("assets/box.png");
     SDL_Texture*  door = window.LoadTexture("assets/door.png");
-    SDL_Texture*  endScreen = window.LoadTexture("assets/endScreen.png");
-    SDL_Texture*  failScreen = window.LoadTexture("assets/failScreen.png");
+    SDL_Texture*  f_platform = window.LoadTexture("assets/f_platform.png");
    
     /*-------------INITIALIZE PLAYER & LEVEL VECTORS-------------------*/
     Player player2(50,500,p_water_tex); //player constructor for player 2(always Water Character)
@@ -77,6 +76,7 @@ int main(int argc, char* args[]){
     GameObject* plat_10 = new GameObject(200,275,s_platform);
 
     GameObject* plat_11 = new Oscillator(600,175,s_platform);
+    GameObject* plat_12 = new   Oscillator(200,500,f_platform);
    
 
     GameObject* top1 = new GameObject(0,0,top);
@@ -152,6 +152,7 @@ int main(int argc, char* args[]){
                 window.render(background);
 
                 /*------------------ADDING PLATFORMS-----------------*/
+                platforms.push_back(plat_12);
                 platforms.push_back(plat_1);
                 platforms.push_back(plat_2);
                 platforms.push_back(plat_3);
@@ -163,6 +164,7 @@ int main(int argc, char* args[]){
                 platforms.push_back(plat_9);
                 platforms.push_back(plat_10);
                 platforms.push_back(plat_11);
+               
 
                 platforms.push_back(top1);
                 platforms.push_back(wall1);
@@ -220,6 +222,7 @@ int main(int argc, char* args[]){
                 }
                 if(keyboard[SDL_SCANCODE_R]){
                     isReset = false;
+                    coins[0]->ResetCoinCounter();
                     platforms.clear();
                     coins.clear();
                 }
@@ -247,28 +250,9 @@ int main(int argc, char* args[]){
                 isWin = true;
                 isInGame = false;
                 coins[0]->ResetCoinCounter();
-                std::cout<<"You have won !! "<<std::endl;
-                   std::cout << "You Win!" <<std::endl;
-                // Find and remove portals/bars from platforms vector
-                for (auto it = platforms.begin(); it != platforms.end(); ) {
-                  
-                    if (*it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
-                        delete *it; // Free memory
-                        it = platforms.erase(it); // Remove from vector
-                    } else {
-                        ++it;
-                    }
-                }
-                window.clear();
-                background.switch_screen(endScreen);
-                window.render(background);
-                window.display();
-                
+
+                background.switch_screen(mainscreen);
             }
-
-
-
-
 
             
 
@@ -276,6 +260,8 @@ int main(int argc, char* args[]){
 
             Oscillator* o = dynamic_cast<Oscillator*>(plat_11);
             o->Oscillate();
+            Oscillator* o2 = dynamic_cast<Oscillator*>(plat_12);
+            o2->Oscillate();
 
 
             /*-----------------RENDERING ALL THINGS------------------*/
@@ -292,7 +278,7 @@ int main(int argc, char* args[]){
             window.render(player2);
             window.display();
 		}
-        }
+    
 
 
         if (isWin) {
@@ -320,6 +306,8 @@ int main(int argc, char* args[]){
                 background.switch_screen(game_bg);
             }
         }
+
+    }
 
 
 

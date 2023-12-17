@@ -9,7 +9,7 @@ void Oscillator::Oscillate()
     double amplitude = 2.75;
     double frequency = 0.25;
     int yOffset = amplitude * std::sin(2 * M_PI * frequency * time); 
-
+    
     setpos(getpos().x,getpos().y + yOffset);
 
 
