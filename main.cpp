@@ -38,7 +38,8 @@ int main(int argc, char* args[]){
     SDL_Texture* game_bg = window.LoadTexture("assets/bg.png");
     SDL_Texture* mainscreen = window.LoadTexture("assets/main_screen.png");
     SDL_Texture* border = window.LoadTexture("assets/borders.png");
-    SDL_Texture* coin = window.LoadTexture("assets/s_jewel.png");
+    SDL_Texture* w_coin = window.LoadTexture("assets/s_jewel.png");
+    SDL_Texture* f_coin = window.LoadTexture("assets/f_jewel.png");
     SDL_Texture* platform  = window.LoadTexture("assets/platform.png"); 
     SDL_Texture* top = window.LoadTexture("assets/top_bound.png");
     SDL_Texture* ground = window.LoadTexture("assets/ground.png");
@@ -47,7 +48,7 @@ int main(int argc, char* args[]){
     SDL_Texture*  s_platform = window.LoadTexture("assets/platform_small.png");
     SDL_Texture*  box = window.LoadTexture("assets/box.png");
     SDL_Texture*  door = window.LoadTexture("assets/door.png");
-
+   
     /*-------------INITIALIZE PLAYER & LEVEL VECTORS-------------------*/
     Player player2(50,500,p_water_tex); //player constructor for player 2(always Water Character)
     Player player1(100,500,p_fire_tex); //player constructor for player 1(always Fire Character)
@@ -88,28 +89,30 @@ int main(int argc, char* args[]){
     GameObject* water_plat2 = new GameObject(200,100,water_platform);
 
 
-    Coin* c1 = new Coin(100,450,coin);
-    Coin* c2 = new Coin(250,450,coin);
-    Coin* c3 = new Coin(400,450,coin);
-    Coin* c4 = new Coin(550,450,coin);
-    Coin* c5 = new Coin(700,450,coin);
-    Coin* c6 = new Coin(100,250,coin);
-    Coin* c7 = new Coin(250,250,coin);
-    Coin* c8 = new Coin(400,250,coin);
-    Coin* c9 = new Coin(550,250,coin);
-    Coin* c10 = new Coin(700,250,coin);
-    Coin* c11 = new Coin(100,50,coin);
+    Coin* c1 = new Coin(100,450,f_coin);
+    Coin* c2 = new Coin(250,450,w_coin);
+    Coin* c3 = new Coin(400,450,w_coin);
+    Coin* c4 = new Coin(550,450,f_coin);
+    Coin* c5 = new Coin(700,450,w_coin);
+    Coin* c6 = new Coin(100,250,f_coin);
+    Coin* c7 = new Coin(250,250,w_coin);
+    Coin* c8 = new Coin(400,250,f_coin);
+    Coin* c9 = new Coin(550,250,w_coin);
+    Coin* c10 = new Coin(700,250,f_coin);
+    Coin* c11 = new Coin(100,50,w_coin);
+    Coin* c12 = new Coin(250,50,f_coin);
 
 
     /*-------------------INITIALIZING OTHER GAME VALUES--------------------*/
     
     /*-------Game States---------*/
-    bool isWaiting = false ;
+    bool isReset = false ;
     bool isInMenu = true ;// main menu screen is default screen   
-    bool isRestart = false;
     bool isInGame = false;
     bool isWin = false;
     bool isLose = false;
+
+    int totalCoins = 12;
     
 
     bool gamerun = true; //To run the game 
@@ -142,7 +145,7 @@ int main(int argc, char* args[]){
             }
         } 
         else if(isInGame){
-            if(!isWaiting){
+            if(!isReset){
                 window.clear();
                 window.render(background);
 
@@ -175,6 +178,9 @@ int main(int argc, char* args[]){
                 coins.push_back(c9);
                 coins.push_back(c10);
                 coins.push_back(c11);
+                coins.push_back(c12);
+
+
 
 
                 /*----------------INTIALIZING PLAYER LOCATION---------------------*/
@@ -186,7 +192,7 @@ int main(int argc, char* args[]){
                 
                 window.display();
 
-                isWaiting = true;
+                isReset = true;
             }
             else{
             /*                              HANDLE PLAYER CONTROLS                                     */
@@ -211,7 +217,7 @@ int main(int argc, char* args[]){
                     player2.Jump(platforms);
                 }
                 if(keyboard[SDL_SCANCODE_R]){
-                    isWaiting = false;
+                    isReset = false;
                     platforms.clear();
                     coins.clear();
                 }
@@ -233,6 +239,17 @@ int main(int argc, char* args[]){
                     std::cout<<coins[i]->GetCoinCounter();
                 }
             }
+
+            /*------------WIN---------------*/
+            if(coins[0]->GetCoinCounter() == totalCoins){
+                isWin = true;
+                isInGame = false;
+                coins[0]->ResetCoinCounter();
+                background.switch_screen(mainscreen);
+            }
+
+
+
 
 
             
@@ -257,6 +274,7 @@ int main(int argc, char* args[]){
             window.render(player2);
             window.display();
 		}
+        }
 
 
         if (isWin) {
@@ -268,7 +286,7 @@ int main(int argc, char* args[]){
                 coins.clear();
                 isWin = false;
                 isInGame = true;
-                isWaiting = false;
+                isReset = false;
                 background.switch_screen(game_bg);
             }
         }
@@ -281,13 +299,12 @@ int main(int argc, char* args[]){
                 coins.clear();
                 isLose = false;
                 isInGame = true;
-                isWaiting = false;
+                isReset = false;
                 background.switch_screen(game_bg);
             }
         }
 
 
-	}
 
 	window.cleanUp(); // DELETE EVERYTHING ON SCREEN
 
