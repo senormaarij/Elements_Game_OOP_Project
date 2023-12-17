@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <SDL_mixer.h>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
@@ -32,11 +33,15 @@ int main(int argc, char* args[]){
 	SDL_Renderer* renderer = window.getRenderer();
 
    
+    //upload music
+    Mix_Music *music = nullptr;
+
+
     /*--------------LOAD TEXTURE-----------------*/
     SDL_Texture* p_fire_tex = window.LoadTexture("assets/FireChar.png");
     SDL_Texture* p_water_tex = window.LoadTexture("assets/WaterChar.png");
     SDL_Texture* game_bg = window.LoadTexture("assets/bg.png");
-    SDL_Texture* mainscreen = window.LoadTexture("assets/main_screen.png");
+    SDL_Texture* mainscreen = window.LoadTexture("assets/gameStart.png");
     SDL_Texture* border = window.LoadTexture("assets/borders.png");
     SDL_Texture* w_coin = window.LoadTexture("assets/s_jewel.png");
     SDL_Texture* f_coin = window.LoadTexture("assets/f_jewel.png");
@@ -104,6 +109,21 @@ int main(int argc, char* args[]){
     Coin* c11 = new Coin(100,50,w_coin);
     Coin* c12 = new Coin(250,50,f_coin);
 
+        // Initialize SDL_mixer for audio
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
+    }
+
+    // Load the audio file
+    music = Mix_LoadMUS("assets/Hitman(chosic.com).mp3");
+
+
+    if (music == nullptr) {
+        std::cout << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        } else {
+            Mix_PlayMusic(music, -1); // Play the loaded music infinitely
+        }
+
 
     /*-------------------INITIALIZING OTHER GAME VALUES--------------------*/
     
@@ -140,7 +160,7 @@ int main(int argc, char* args[]){
             window.render(background);
             window.display();
         
-        if(keyboard[SDL_SCANCODE_SPACE]){
+        if(keyboard[SDL_SCANCODE_RETURN]){
             isInMenu = false;
             isInGame = true;
             background.switch_screen(game_bg);
@@ -238,12 +258,14 @@ int main(int argc, char* args[]){
             /*------------COIN HANDLING---------------*/
              for (int i = 0; i < coins.size(); i++) {
                 
-                if(coins[i]->Collision(&player1) || coins[i]->Collision(&player2)){
+                if (coins[i]->Collision(&player1) || coins[i]->Collision(&player2)) {
+                
+                    // Process other collision-related actions
                     coins.erase(coins.begin() + i);
                     coins[i]->increaseCoinCounter();
-                    std::cout<<coins[i]->GetCoinCounter();
-                }
-            }
+                    std::cout << coins[i]->GetCoinCounter();
+                
+                }}             
 
             /*------------WIN---------------*/
             if(coins[0]->GetCoinCounter() == totalCoins){
