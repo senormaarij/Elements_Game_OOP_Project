@@ -48,6 +48,8 @@ int main(int argc, char* args[]){
     SDL_Texture*  s_platform = window.LoadTexture("assets/platform_small.png");
     SDL_Texture*  box = window.LoadTexture("assets/box.png");
     SDL_Texture*  door = window.LoadTexture("assets/door.png");
+    SDL_Texture*  endScreen = window.LoadTexture("assets/endScreen.png");
+    SDL_Texture*  failScreen = window.LoadTexture("assets/failScreen.png");
    
     /*-------------INITIALIZE PLAYER & LEVEL VECTORS-------------------*/
     Player player2(50,500,p_water_tex); //player constructor for player 2(always Water Character)
@@ -245,7 +247,23 @@ int main(int argc, char* args[]){
                 isWin = true;
                 isInGame = false;
                 coins[0]->ResetCoinCounter();
-                background.switch_screen(mainscreen);
+                std::cout<<"You have won !! "<<std::endl;
+                   std::cout << "You Win!" <<std::endl;
+                // Find and remove portals/bars from platforms vector
+                for (auto it = platforms.begin(); it != platforms.end(); ) {
+                  
+                    if (*it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
+                        delete *it; // Free memory
+                        it = platforms.erase(it); // Remove from vector
+                    } else {
+                        ++it;
+                    }
+                }
+                window.clear();
+                background.switch_screen(endScreen);
+                window.render(background);
+                window.display();
+                
             }
 
 
@@ -278,9 +296,7 @@ int main(int argc, char* args[]){
 
 
         if (isWin) {
-            window.clear();
-            window.render(background);
-            window.display();
+         
             if(keyboard[SDL_SCANCODE_R]){
                 platforms.clear();
                 coins.clear();
@@ -291,6 +307,7 @@ int main(int argc, char* args[]){
             }
         }
         if (isLose) {
+            background.switch_screen(failScreen);
             window.clear();
             window.render(background);
             window.display();
@@ -313,11 +330,11 @@ int main(int argc, char* args[]){
 
 
     /*------------------FREE MEMORY-----------------*/
-    for(int i = 0 ; i < platforms.size(); i ++)
-    {
-        delete platforms[i];
-        platforms[i] = nullptr;
-    }
+    // for(int i = 0 ; i < platforms.size(); i ++)
+    // {
+    //     delete platforms[i];
+    //     platforms[i] = nullptr;
+    // }
 
     for(int i = 0; i < coins.size(); i++)
     {
