@@ -222,6 +222,7 @@ int main(int argc, char* args[]){
                 }
                 if(keyboard[SDL_SCANCODE_R]){
                     isReset = false;
+                    coins[0]->ResetCoinCounter();
                     platforms.clear();
                     coins.clear();
                 }
@@ -249,12 +250,9 @@ int main(int argc, char* args[]){
                 isWin = true;
                 isInGame = false;
                 coins[0]->ResetCoinCounter();
+
                 background.switch_screen(mainscreen);
             }
-
-
-
-
 
             
 
@@ -280,7 +278,7 @@ int main(int argc, char* args[]){
             window.render(player2);
             window.display();
 		}
-        }
+    
 
 
         if (isWin) {
@@ -309,6 +307,8 @@ int main(int argc, char* args[]){
                 background.switch_screen(game_bg);
             }
         }
+
+    }
 
 
 
