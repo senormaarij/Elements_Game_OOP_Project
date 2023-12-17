@@ -1,14 +1,6 @@
 #include "Oscillator.hpp"
-
-
-
 #include<iostream>
 using namespace std;
-
-
-
-
-
 
 
 void Oscillator::Oscillate()
@@ -18,9 +10,7 @@ void Oscillator::Oscillate()
     double frequency = 0.25;
     int yOffset = amplitude * std::sin(2 * M_PI * frequency * time); //-1 1
     cout << yOffset << endl;
-     
 
-    //y += yoffset
     setpos(getpos().x,getpos().y + yOffset);
 
 
