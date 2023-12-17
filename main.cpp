@@ -279,8 +279,8 @@ int main(int argc, char* args[]){
               
                 for (auto it = platforms.begin(); it != platforms.end(); ) {
                   
-                    if (*it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
-                        delete *it; // Free memory
+                    if (*it == plat_12 || *it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
+                       // delete *it; // Free memory
                         it = platforms.erase(it); // Remove from vector
                     } else {
                         ++it;
