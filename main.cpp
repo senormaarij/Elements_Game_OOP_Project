@@ -48,6 +48,7 @@ int main(int argc, char* args[]){
     SDL_Texture*  s_platform = window.LoadTexture("assets/platform_small.png");
     SDL_Texture*  box = window.LoadTexture("assets/box.png");
     SDL_Texture*  door = window.LoadTexture("assets/door.png");
+    SDL_Texture*  f_platform = window.LoadTexture("assets/f_platform.png");
    
     /*-------------INITIALIZE PLAYER & LEVEL VECTORS-------------------*/
     Player player2(50,500,p_water_tex); //player constructor for player 2(always Water Character)
@@ -75,6 +76,7 @@ int main(int argc, char* args[]){
     GameObject* plat_10 = new GameObject(200,275,s_platform);
 
     GameObject* plat_11 = new Oscillator(600,175,s_platform);
+    GameObject* plat_12 = new   Oscillator(200,500,f_platform);
    
 
     GameObject* top1 = new GameObject(0,0,top);
@@ -150,6 +152,7 @@ int main(int argc, char* args[]){
                 window.render(background);
 
                 /*------------------ADDING PLATFORMS-----------------*/
+                platforms.push_back(plat_12);
                 platforms.push_back(plat_1);
                 platforms.push_back(plat_2);
                 platforms.push_back(plat_3);
@@ -161,6 +164,7 @@ int main(int argc, char* args[]){
                 platforms.push_back(plat_9);
                 platforms.push_back(plat_10);
                 platforms.push_back(plat_11);
+               
 
                 platforms.push_back(top1);
                 platforms.push_back(wall1);
@@ -258,6 +262,8 @@ int main(int argc, char* args[]){
 
             Oscillator* o = dynamic_cast<Oscillator*>(plat_11);
             o->Oscillate();
+            Oscillator* o2 = dynamic_cast<Oscillator*>(plat_12);
+            o2->Oscillate();
 
 
             /*-----------------RENDERING ALL THINGS------------------*/
