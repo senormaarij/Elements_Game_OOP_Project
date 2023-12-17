@@ -54,6 +54,9 @@ int main(int argc, char* args[]){
     SDL_Texture*  box = window.LoadTexture("assets/box.png");
     SDL_Texture*  door = window.LoadTexture("assets/door.png");
     SDL_Texture*  f_platform = window.LoadTexture("assets/f_platform.png");
+    SDL_Texture*  endScreen = window.LoadTexture("assets/endScreen.png");
+    SDL_Texture*  failScreen = window.LoadTexture("assets/failScreen.png");
+
    
     /*-------------INITIALIZE PLAYER & LEVEL VECTORS-------------------*/
     Player player2(50,500,p_water_tex); //player constructor for player 2(always Water Character)
@@ -273,7 +276,23 @@ int main(int argc, char* args[]){
                 isInGame = false;
                 coins[0]->ResetCoinCounter();
 
-                background.switch_screen(mainscreen);
+              
+                for (auto it = platforms.begin(); it != platforms.end(); ) {
+                  
+                    if (*it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
+                        delete *it; // Free memory
+                        it = platforms.erase(it); // Remove from vector
+                    } else {
+                        ++it;
+                    }
+                }
+                window.clear();
+                background.switch_screen(endScreen);
+                window.render(background);
+                window.display();
+    
+
+
             }
 
             
