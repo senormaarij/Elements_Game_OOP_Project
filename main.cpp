@@ -35,6 +35,9 @@ int main(int argc, char* args[]){
    
     //upload music
     Mix_Music *music = nullptr;
+    // Load other sound effects
+    Mix_Chunk* coinCollisionSound = nullptr;
+    Mix_Chunk* jumpMusic = nullptr;
 
 
     /*--------------LOAD TEXTURE-----------------*/
@@ -119,13 +122,17 @@ int main(int argc, char* args[]){
 
     // Load the audio file
     music = Mix_LoadMUS("assets/Hitman(chosic.com).mp3");
+    coinCollisionSound=Mix_LoadWAV("assets/coinSound.wav");
+    jumpMusic=Mix_LoadWAV("assets/jumpSound.wav");
 
 
-    if (music == nullptr) {
-        std::cout << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;
-        } else {
-            Mix_PlayMusic(music, -1); // Play the loaded music infinitely
-        }
+    if (!music || !coinCollisionSound || !jumpMusic) {
+        std::cout << "Failed to load audio files! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        return -1;
+    }
+    
+    Mix_PlayMusic(music, -1); // Play the background music infinitely
+        
 
 
     /*-------------------INITIALIZING OTHER GAME VALUES--------------------*/
@@ -192,7 +199,7 @@ int main(int argc, char* args[]){
                 platforms.push_back(top1);
                 platforms.push_back(wall1);
                 platforms.push_back(wall2);
-                
+                platforms.push_back(Door1); 
                 /*----------------ADDING COINS---------------------*/
                 coins.push_back(c1);
                 coins.push_back(c2);
@@ -232,15 +239,18 @@ int main(int argc, char* args[]){
                     
 				}
                 if(keyboard[SDL_SCANCODE_UP]){ //player 1 jumps
+
                     player1.Jump(platforms);
                 }
                 if(keyboard[SDL_SCANCODE_A]){ //player 2 goes left
                     player2.MoveLeft(platforms);
                 }
                 if(keyboard[SDL_SCANCODE_D]){  //player 2 goes right
+                    Mix_PlayChannel(2, jumpMusic, 0);
                     player2.MoveRight(platforms);
                 }
                 if(keyboard[SDL_SCANCODE_W]){ //player 2 jumps
+                    Mix_PlayChannel(2, jumpMusic, 0);
                     player2.Jump(platforms);
                 }
                 if(keyboard[SDL_SCANCODE_R]){
@@ -265,7 +275,7 @@ int main(int argc, char* args[]){
                 if (coins[i]->Collision(&player1) && ffCoin) {
                 
                     // Process other collision-related actions
-
+                    Mix_PlayChannel(1, coinCollisionSound, 0);
                     coins.erase(coins.begin() + i);
                     coins[i]->increaseCoinCounter();
                     std::cout << coins[i]->GetCoinCounter();
@@ -273,7 +283,7 @@ int main(int argc, char* args[]){
                 }  else if (coins[i]->Collision(&player2) && wwCoin) {
                 
                     // Process other collision-related actions
-
+                    Mix_PlayChannel(1, coinCollisionSound, 0);
                     coins.erase(coins.begin() + i);
                     coins[i]->increaseCoinCounter();
                     std::cout << coins[i]->GetCoinCounter();
