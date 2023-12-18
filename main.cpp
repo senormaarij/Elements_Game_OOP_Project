@@ -83,7 +83,7 @@ int main(int argc, char* args[]){
     GameObject* plat_9 = new GameObject(0,120,s_platform);
     GameObject* plat_10 = new GameObject(200,275,s_platform);
 
-    GameObject* plat_11 = new Oscillator(600,175,s_platform);
+    GameObject* plat_11 = new Oscillator(600,190,s_platform);
     GameObject* plat_12 = new   Oscillator(200,500,f_platform);
    
 
@@ -91,7 +91,7 @@ int main(int argc, char* args[]){
     GameObject* wall1 = new GameObject(0,500,border);
     GameObject* wall2 = new GameObject(800,500,border);
 
-    GameObject* Door1 = new Door(10,100,box);
+    GameObject* Door1 = new Door(10,100,door);
 
     GameObject* fireplat_1 = new GameObject(0,500,fire_platform);
     GameObject* fireplat_2 = new GameObject(0,300,fire_platform);
@@ -99,18 +99,18 @@ int main(int argc, char* args[]){
     GameObject* water_plat2 = new GameObject(200,100,water_platform);
 
 
-    Coin* c1 = new Coin(100,450,f_coin);
-    Coin* c2 = new Coin(250,450,w_coin);
-    Coin* c3 = new Coin(400,450,w_coin);
-    Coin* c4 = new Coin(550,450,f_coin);
-    Coin* c5 = new Coin(700,450,w_coin);
-    Coin* c6 = new Coin(100,250,f_coin);
-    Coin* c7 = new Coin(250,250,w_coin);
-    Coin* c8 = new Coin(400,250,f_coin);
-    Coin* c9 = new Coin(550,250,w_coin);
-    Coin* c10 = new Coin(700,250,f_coin);
-    Coin* c11 = new Coin(100,50,w_coin);
-    Coin* c12 = new Coin(250,50,f_coin);
+    Coin* c1 = new ff_coin(100,450,f_coin);
+    Coin* c2 = new ww_coin(250,450,w_coin);
+    Coin* c3 = new ww_coin(400,450,w_coin);
+    Coin* c4 = new ff_coin(550,450,f_coin);
+    Coin* c5 = new ww_coin(700,450,w_coin);
+    Coin* c6 = new ff_coin(100,250,f_coin);
+    Coin* c7 = new ww_coin(250,250,w_coin);
+    Coin* c8 = new ff_coin(400,250,f_coin);
+    Coin* c9 = new ww_coin(550,250,w_coin);
+    Coin* c10 = new ff_coin(700,250,f_coin);
+    Coin* c11 = new ww_coin(100,50,w_coin);
+    Coin* c12 = new ff_coin(250,50,f_coin);
 
         // Initialize SDL_mixer for audio
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
@@ -260,16 +260,25 @@ int main(int argc, char* args[]){
 
             /*------------COIN HANDLING---------------*/
              for (int i = 0; i < coins.size(); i++) {
-                
-                if (coins[i]->Collision(&player1) || coins[i]->Collision(&player2)) {
+                ff_coin* ffCoin = dynamic_cast<ff_coin*>(coins[i]);
+                ww_coin* wwCoin = dynamic_cast<ww_coin*>(coins[i]);
+                if (coins[i]->Collision(&player1) && ffCoin) {
                 
                     // Process other collision-related actions
+
                     coins.erase(coins.begin() + i);
                     coins[i]->increaseCoinCounter();
                     std::cout << coins[i]->GetCoinCounter();
                 
-                }}             
+                }  else if (coins[i]->Collision(&player2) && wwCoin) {
+                
+                    // Process other collision-related actions
 
+                    coins.erase(coins.begin() + i);
+                    coins[i]->increaseCoinCounter();
+                    std::cout << coins[i]->GetCoinCounter();
+                }             
+             }
             /*------------WIN---------------*/
             if(coins[0]->GetCoinCounter() == totalCoins){
                 isWin = true;
