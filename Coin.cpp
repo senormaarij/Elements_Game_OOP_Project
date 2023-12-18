@@ -16,6 +16,3 @@ int Coin::GetCoinCounter() {
 void Coin::ResetCoinCounter() {
     coinCounter = 0;
 }
-
-
-

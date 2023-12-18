@@ -7,7 +7,7 @@
 
 
 class GameObject {
-private:
+protected:
     Vector2D pos;
     SDL_Rect rect;
     SDL_Texture* objtex;
