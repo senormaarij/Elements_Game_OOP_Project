@@ -99,18 +99,32 @@ int main(int argc, char* args[]){
     GameObject* water_plat2 = new GameObject(200,100,water_platform);
 
 
-    Coin* c1 = new Coin(100,450,f_coin);
-    Coin* c2 = new Coin(250,450,w_coin);
-    Coin* c3 = new Coin(400,450,w_coin);
-    Coin* c4 = new Coin(550,450,f_coin);
-    Coin* c5 = new Coin(700,450,w_coin);
-    Coin* c6 = new Coin(100,250,f_coin);
-    Coin* c7 = new Coin(250,250,w_coin);
-    Coin* c8 = new Coin(400,250,f_coin);
-    Coin* c9 = new Coin(550,250,w_coin);
-    Coin* c10 = new Coin(700,250,f_coin);
-    Coin* c11 = new Coin(100,50,w_coin);
-    Coin* c12 = new Coin(250,50,f_coin);
+    // Coin* c1 = new Coin(100,450,f_coin);
+    // Coin* c2 = new Coin(250,450,w_coin);
+    // Coin* c3 = new Coin(400,450,w_coin);
+    // Coin* c4 = new Coin(550,450,f_coin);
+    // Coin* c5 = new Coin(700,450,w_coin);
+    // Coin* c6 = new Coin(100,250,f_coin);
+    // Coin* c7 = new Coin(250,250,w_coin);
+    // Coin* c8 = new Coin(400,250,f_coin);
+    // Coin* c9 = new Coin(550,250,w_coin);
+    // Coin* c10 = new Coin(700,250,f_coin);
+    // Coin* c11 = new Coin(100,50,w_coin);
+    // Coin* c12 = new Coin(250,50,f_coin);
+    Coin* c1 = new FireCoin(100,450,f_coin);
+    Coin* c2 = new WaterCoin(250,450,w_coin);
+    Coin* c3 = new WaterCoin(400,450,w_coin);
+    Coin* c4 = new FireCoin(550,450,f_coin);
+    Coin* c5 = new WaterCoin(700,450,w_coin);
+    Coin* c6 = new FireCoin(100,250,f_coin);
+    Coin* c7 = new WaterCoin(250,250,w_coin);
+    Coin* c8 = new FireCoin(400,250,f_coin);
+    Coin* c9 = new WaterCoin(550,250,w_coin);
+    Coin* c10 = new FireCoin(700,250,f_coin);
+    Coin* c11 = new WaterCoin(100,50,w_coin);
+    Coin* c12 = new FireCoin(250,50,f_coin);
+
+
 
         // Initialize SDL_mixer for audio
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
@@ -260,15 +274,26 @@ int main(int argc, char* args[]){
 
             /*------------COIN HANDLING---------------*/
              for (int i = 0; i < coins.size(); i++) {
+                    
+                    
+                    FireCoin *firecoin = dynamic_cast<FireCoin*> (coins[i]);
+                    WaterCoin *watercoin = dynamic_cast<WaterCoin*> (coins[i]);
                 
-                if (coins[i]->Collision(&player1) || coins[i]->Collision(&player2)) {
+                if (coins[i]->Collision(&player1) && firecoin ) {
+                    
+                    coins.erase(coins.begin() + i);
+                    coins[i]->increaseCoinCounter();
+                    std::cout << coins[i]->GetCoinCounter();
+
+                } 
+                else if (coins[i]->Collision(&player2) && watercoin) {
                 
-                    // Process other collision-related actions
                     coins.erase(coins.begin() + i);
                     coins[i]->increaseCoinCounter();
                     std::cout << coins[i]->GetCoinCounter();
                 
-                }}             
+                }     
+             }        
 
             /*------------WIN---------------*/
             if(coins[0]->GetCoinCounter() == totalCoins){
@@ -280,7 +305,7 @@ int main(int argc, char* args[]){
                 for (auto it = platforms.begin(); it != platforms.end(); ) {
                   
                     if (*it == plat_12 || *it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
-                       // delete *it; // Free memory
+                      
                         it = platforms.erase(it); // Remove from vector
                     } else {
                         ++it;
