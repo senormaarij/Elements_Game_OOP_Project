@@ -4,37 +4,22 @@
 #include "Player.hpp"
 
 class Coin: public GameObject {
-    protected: 
-     int coinCounter = 0;  
+    protected:
+    static int coinCounter;  
 
     public:
     Coin(int x, int y, SDL_Texture* c_tex);
-    virtual void ResetCoinCounter();
-    virtual int GetCoinCounter();
-    void virtual increaseCoinCounter();
-    virtual ~Coin() {}
+    static void ResetCoinCounter();
+    static int GetCoinCounter();
+    void increaseCoinCounter();
 };
 
-class WaterCoin : public Coin{
-  private:
-    // static int coinCounter;  
-
+class ff_coin: public Coin{
     public:
-    WaterCoin(int x, int y, SDL_Texture* c_tex); // this construtor should send data to coin 
-    
-    void ResetCoinCounter() override;
-    int GetCoinCounter() override;
-    void increaseCoinCounter() override;
+    ff_coin(int x, int y, SDL_Texture* c_tex): Coin(x, y, c_tex){}
 };
-class FireCoin : public Coin{
-  private:
-    // static int coinCounter;  
 
+class ww_coin: public Coin{
     public:
-    FireCoin(int x, int y, SDL_Texture* c_tex); // this construtor should send data to coin 
-    
-    void ResetCoinCounter() override;
-    int GetCoinCounter() override;
-    void increaseCoinCounter() override;
+    ww_coin(int x, int y, SDL_Texture* c_tex): Coin(x, y, c_tex){}
 };
-
