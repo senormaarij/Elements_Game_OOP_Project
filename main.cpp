@@ -16,10 +16,17 @@
 #include "Door.hpp"
 #include "Oscillator.hpp"
 
+
+
+
 float getCurrentTime(){
     return SDL_GetTicks()/1000.0f;
 }
 
+bool has_touched_with_door=false;
+void is_yes(){
+    has_touched_with_door=true;
+}
 
 int main(int argc, char* args[]){
 	if (SDL_Init(SDL_INIT_VIDEO) > 0)
@@ -157,6 +164,9 @@ int main(int argc, char* args[]){
 
     float currentTime = getCurrentTime();
 
+
+    
+
     /*------GAME LOOP------*/
 
     while(gamerun){
@@ -289,8 +299,12 @@ int main(int argc, char* args[]){
                     std::cout << coins[i]->GetCoinCounter();
                 }             
              }
+
             /*------------WIN---------------*/
+            //winning condition checking
+            
             if(coins[0]->GetCoinCounter() == totalCoins){
+                if (player1.it_is_true || player2.it_is_true){
                 isWin = true;
                 isInGame = false;
                 coins[0]->ResetCoinCounter();
@@ -298,7 +312,7 @@ int main(int argc, char* args[]){
               
                 for (auto it = platforms.begin(); it != platforms.end(); ) {
                   
-                    if (*it == plat_12 || *it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2) {
+                    if (*it == plat_12 || *it == plat_11 || *it == plat_10 || *it == plat_9 || *it == plat_8 || *it == plat_7 || *it == plat_6 || *it == plat_5 || *it == plat_4 || *it == plat_3 || *it == plat_2 || *it == plat_1 || *it == top1 || *it == wall1 || *it == wall2 || *it == Door1) {
                        // delete *it; // Free memory
                         it = platforms.erase(it); // Remove from vector
                     } else {
@@ -313,7 +327,7 @@ int main(int argc, char* args[]){
 
 
             }
-
+            }
             
 
             /*------------Oscillator---------------*/
@@ -370,11 +384,7 @@ int main(int argc, char* args[]){
     }
 
 
-
 	window.cleanUp(); // DELETE EVERYTHING ON SCREEN
-
-	
-
 
 
     /*------------------FREE MEMORY-----------------*/

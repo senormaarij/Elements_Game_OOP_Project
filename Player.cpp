@@ -11,6 +11,12 @@ void Player::MoveLeft(std::vector<GameObject*> objects){
         setpos(getpos().x - 1, getpos().y);
         for (int i = 0; i < objects.size(); i++) {
             if (Collision((objects[i]))) {
+                //dynamic casting to check wheather what to whicle get touch with door
+                Door* door = dynamic_cast<Door*>(objects[i]);
+                if (door){
+                    std::cout<<"yeah"<<std::endl;
+                    it_is_true=true;
+                } 
                 setpos(getpos().x + 1, getpos().y);
                 break;
             }
