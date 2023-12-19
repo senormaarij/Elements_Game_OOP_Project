@@ -9,8 +9,8 @@ class Oscillator: public GameObject
 {
     public:
 
-        Oscillator(int x, int y, SDL_Texture* o_tex):GameObject(x,y,o_tex){};
-        void Oscillate();
+        Oscillator(int x, int y, SDL_Texture* o_tex):GameObject(x,y,o_tex){}; //constructor
+        void Oscillate(); //oscillate the object
 
 
 };

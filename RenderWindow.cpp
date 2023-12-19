@@ -19,28 +19,28 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
 }
 
 void RenderWindow::cleanUp(){
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window); //destroying window
+	SDL_DestroyRenderer(renderer); //destroying renderer
 }
 
 void RenderWindow::clear(){
-	SDL_RenderClear(renderer);
+	SDL_RenderClear(renderer); //clearing renderer
 }
 
 void RenderWindow::render(GameObject& g_object){
 	SDL_Rect src;
-	src.x = g_object.getRect().x;
+	src.x = g_object.getRect().x; //SETTING UP src rectangle
 	src.y = g_object.getRect().y;
 	src.w = g_object.getRect().w;
 	src.h = g_object.getRect().h;
 
 	SDL_Rect dst;
-	dst.x = g_object.getpos().x;
+	dst.x = g_object.getpos().x; //SETTING UP dst rectangle
 	dst.y = g_object.getpos().y;
 	dst.w = g_object.getRect().w;
 	dst.h = g_object.getRect().h;
 
-	SDL_RenderCopy(renderer, g_object.getTex(), &src, &dst);
+	SDL_RenderCopy(renderer, g_object.getTex(), &src, &dst); //renderering the object
 }
 
 
@@ -55,9 +55,9 @@ SDL_Texture* RenderWindow::LoadTexture(const char* filename){
 }
 
 void RenderWindow::render(Screen& g_screen){
-    SDL_RenderCopy(renderer,g_screen.getTex(), NULL, NULL);
+    SDL_RenderCopy(renderer,g_screen.getTex(), NULL, NULL); //renderering the screen
 }
 
 void RenderWindow::display(){
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(renderer); //displaying the renderer
 }

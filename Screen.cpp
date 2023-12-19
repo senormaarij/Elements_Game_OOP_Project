@@ -2,7 +2,7 @@
 
 
 Screen::Screen(SDL_Texture* start_text){
-    s_tex = start_text;
+    s_tex = start_text; 
 }
 
 void Screen::switch_screen(SDL_Texture* ns_tex){

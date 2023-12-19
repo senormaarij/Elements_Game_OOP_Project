@@ -191,7 +191,7 @@ int main(int argc, char* args[]){
                 window.clear();
                 window.render(background);
 
-                /*------------------ADDING PLATFORMS-----------------*/
+                /*------------------ADDING/RESETING PLATFORMS-----------------*/
                 platforms.push_back(plat_12);
                 platforms.push_back(plat_1);
                 platforms.push_back(plat_2);
@@ -210,7 +210,7 @@ int main(int argc, char* args[]){
                 platforms.push_back(wall1);
                 platforms.push_back(wall2);
                 platforms.push_back(Door1); 
-                /*----------------ADDING COINS---------------------*/
+                /*----------------ADDING/RESTING COINS---------------------*/
                 coins.push_back(c1);
                 coins.push_back(c2);
                 coins.push_back(c3);
@@ -227,7 +227,7 @@ int main(int argc, char* args[]){
 
 
 
-                /*----------------INTIALIZING PLAYER LOCATION---------------------*/
+                /*----------------INTIALIZING/RESTING PLAYER LOCATION---------------------*/
                 player1.setpos(100,475);
                 player2.setpos(50,475);
 
@@ -236,7 +236,7 @@ int main(int argc, char* args[]){
                 
                 window.display();
 
-                isReset = true;
+                isReset = true; //resetting the game
             }
             else{
             /*                              HANDLE PLAYER CONTROLS                                     */
@@ -384,11 +384,11 @@ int main(int argc, char* args[]){
 
 
     /*------------------FREE MEMORY-----------------*/
-    // for(int i = 0 ; i < platforms.size(); i ++)
-    // {
-    //     delete platforms[i];
-    //     platforms[i] = nullptr;
-    // }
+    for(int i = 0 ; i < platforms.size(); i ++)
+    {
+        delete platforms[i];
+        platforms[i] = nullptr;
+    }
 
     for(int i = 0; i < coins.size(); i++)
     {

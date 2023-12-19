@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-class Vector2D{
+class Vector2D{ // 2D vector class for position and velocity
 public:
     float x, y;
     Vector2D(){x = 0; y = 0;}
