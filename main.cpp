@@ -101,7 +101,7 @@ int main(int argc, char* args[]){
     GameObject* wall1 = new GameObject(0,500,border);
     GameObject* wall2 = new GameObject(800,500,border);
 
-    GameObject* Door1 = new Door(10,100,door);
+    GameObject* Door1 = new Door(10,90,door);
 
     GameObject* fireplat_1 = new GameObject(0,500,fire_platform);
     GameObject* fireplat_2 = new GameObject(0,300,fire_platform);
