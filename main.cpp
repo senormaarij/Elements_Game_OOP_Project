@@ -319,13 +319,8 @@ int main(int argc, char* args[]){
                         ++it;
                     }
                 }
-                window.clear();
                 background.switch_screen(endScreen);
-                window.render(background);
-                window.display();
-    
-
-
+         
             }
             }
             
@@ -356,7 +351,9 @@ int main(int argc, char* args[]){
 
 
         if (isWin) {
-         
+            window.clear();
+            window.render(background);
+            window.display();
             if(keyboard[SDL_SCANCODE_R]){
                 platforms.clear();
                 coins.clear();
@@ -367,7 +364,6 @@ int main(int argc, char* args[]){
             }
         }
         if (isLose) {
-            background.switch_screen(failScreen);
             window.clear();
             window.render(background);
             window.display();

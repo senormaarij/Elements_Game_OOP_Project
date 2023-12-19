@@ -12,11 +12,14 @@ class Coin: public GameObject {
     static void ResetCoinCounter();
     static int GetCoinCounter();
     void increaseCoinCounter();
+    
 };
+
 
 class ff_coin: public Coin{
     public:
     ff_coin(int x, int y, SDL_Texture* c_tex): Coin(x, y, c_tex){}
+    void Collision(Player* player);
 };
 
 class ww_coin: public Coin{
