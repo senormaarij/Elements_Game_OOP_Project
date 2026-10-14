@@ -13,10 +13,10 @@ Game States: The game has various states, including a main menu, gameplay, win, 
 Object Rendering: SDL is used to render various game objects, such as platforms, borders, coins, and characters.
 Audio: SDL_mixer is utilized for audio effects, enhancing the gaming experience.
 
-Dependencies
+Dependencies Required:
 SDL: Simple DirectMedia Layer library for graphics and input handling.
 SDL_image: SDL extension for loading and handling image files.
-SDL_mixer: SDL extension for handling audio.
+SDL_mixer: SDL extension for handling audio.0
 
 Installation
 Ensure you have SDL, SDL_image, and SDL_mixer libraries installed on your system.
